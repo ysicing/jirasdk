@@ -14,7 +14,7 @@ type UserService struct {
 
 type UserGetOption struct {
 	UserName string `url:"username"`
-	Key string `url:"key,omitempty"`
+	Key      string `url:"key,omitempty"`
 }
 
 type UserGetObject struct {
@@ -46,7 +46,7 @@ type UserGetObject struct {
 func (u *UserService) Get(opts *UserGetOption) (v *UserGetObject, resp *http.Response, err error) {
 	path := u.client.endpoint + "/rest/api/2/user"
 	optv, _ := query.Values(opts)
-	req, err := http.NewRequest("GET", path + "?" + optv.Encode(), nil)
+	req, err := http.NewRequest("GET", path+"?"+optv.Encode(), nil)
 	if err != nil {
 		return
 	}
@@ -61,11 +61,11 @@ func (u *UserService) Get(opts *UserGetOption) (v *UserGetObject, resp *http.Res
 }
 
 type UserSearchOption struct {
-	UserName string `url:"username"`
-	MaxResults int `url:"maxResults,omitempty"`
-	IncludeActive bool `url:"includeActive,omitempty"`
-	IncludeInactive bool `url:"include_inactive,omitempty"`
-	StartAt int `url:"startAt,omitempty"`
+	UserName        string `url:"username"`
+	MaxResults      int    `url:"maxResults,omitempty"`
+	IncludeActive   bool   `url:"includeActive,omitempty"`
+	IncludeInactive bool   `url:"include_inactive,omitempty"`
+	StartAt         int    `url:"startAt,omitempty"`
 }
 
 type UserObject struct {
@@ -90,7 +90,7 @@ type UserSearchObject []UserObject
 func (u *UserService) Search(opts *UserSearchOption) (v *UserSearchObject, resp *http.Response, err error) {
 	path := u.client.endpoint + "/rest/api/2/user/search"
 	optv, _ := query.Values(opts)
-	req, err := http.NewRequest("GET", path + "?" + optv.Encode(), nil)
+	req, err := http.NewRequest("GET", path+"?"+optv.Encode(), nil)
 	if err != nil {
 		return
 	}
@@ -105,12 +105,12 @@ func (u *UserService) Search(opts *UserSearchOption) (v *UserSearchObject, resp 
 }
 
 type UserAssignableOption struct {
-	UserName string `url:"username"`
-	Project string `url:"project"`
-	MaxResults int `url:"maxResults,omitempty"`
-	IssueKey string `url:"issueKey,omitempty"`
-	ActionDescriptorId int `url:"actionDescriptorId,omitempty"`
-	StartAt int `url:"startAt,omitempty"`
+	UserName           string `url:"username"`
+	Project            string `url:"project_get"`
+	MaxResults         int    `url:"maxResults,omitempty"`
+	IssueKey           string `url:"issueKey,omitempty"`
+	ActionDescriptorId int    `url:"actionDescriptorId,omitempty"`
+	StartAt            int    `url:"startAt,omitempty"`
 }
 
 type UserAssignableObject []UserObject
@@ -118,7 +118,7 @@ type UserAssignableObject []UserObject
 func (u *UserService) Assignable(opts *UserAssignableOption) (v *UserAssignableObject, resp *http.Response, err error) {
 	path := u.client.endpoint + "/rest/api/2/user/assignable/search"
 	optv, _ := query.Values(opts)
-	req, err := http.NewRequest("GET", path + "?" + optv.Encode(), nil)
+	req, err := http.NewRequest("GET", path+"?"+optv.Encode(), nil)
 	if err != nil {
 		return
 	}

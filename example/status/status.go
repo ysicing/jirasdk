@@ -11,15 +11,15 @@ import (
 
 var jiraapi *jirasdk.Client
 
-func init()  {
+func init() {
 	c, err := jirasdk.NewClient("http://172.16.74.113:8080", "Jarvisbot", "12345678")
-	if  err != nil {
+	if err != nil {
 		panic(err)
 	}
 	jiraapi = c
 }
 
-func statuslist()  {
+func statuslist() {
 	sg := jirasdk.StatusGetOptions{}
 	v, resp, err := jiraapi.Status.List(&sg)
 	if err != nil {
@@ -29,7 +29,7 @@ func statuslist()  {
 	spew.Dump(v)
 }
 
-func statusget(name string)  {
+func statusget(name string) {
 	sg := jirasdk.StatusGetOptions{
 		IdOrName: name,
 	}
@@ -41,7 +41,7 @@ func statusget(name string)  {
 	spew.Dump(v)
 }
 
-func pstatusget(name string)  {
+func pstatusget(name string) {
 	sg := jirasdk.ProjectStatusGetOptions{
 		ProjectIdOrKey: name,
 	}
@@ -53,10 +53,9 @@ func pstatusget(name string)  {
 	spew.Dump(v)
 }
 
-func main()  {
+func main() {
 	statuslist()
 	statusget("待办")
 	statusget("10005")
 	pstatusget("DEV")
 }
-

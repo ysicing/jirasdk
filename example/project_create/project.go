@@ -1,6 +1,3 @@
-// AGPL License
-// Copyright (c) 2021 ysicing <i@ysicing.me>
-
 package main
 
 import (
@@ -19,14 +16,13 @@ func init() {
 	jiraapi = c
 }
 
-func assignee(keyid string, user string) {
-	ig := jirasdk.IssueAssigneePutOption{
-		IssueIdOrKey: keyid,
-		Name:         user,
+func create() {
+	pp := jirasdk.ProjectPostOption{
+		Key:  "DEV11",
+		Name: "DEV11",
 	}
-	v, resp, err := jiraapi.Issue.Assignee(&ig)
+	v, resp, err := jiraapi.Project.Post(&pp)
 	if err != nil {
-		fmt.Println(resp.StatusCode, err)
 		panic(err)
 	}
 	fmt.Println(resp.StatusCode)
@@ -34,5 +30,5 @@ func assignee(keyid string, user string) {
 }
 
 func main() {
-	assignee("DEV-2", "jarvisbot")
+	create()
 }

@@ -36,20 +36,20 @@ type FTime struct {
 }
 
 type Fields struct {
-	Project FID `json:"project"`
-	Summary   string `json:"summary"`
-	Issuetype FID `json:"issuetype"`
-	Assignee FName `json:"assignee,omitempty"`
-	Reporter FName `json:"reporter"`
-	Priority FID `json:"priority,omitempty"`
-	Labels       []string `json:"labels,omitempty"`
-	Timetracking FTime `json:"timetracking,omitempty"`
-	Versions []FID`json:"versions,omitempty"`
-	Environment string `json:"environment,omitempty"`
-	Description string `json:"description,omitempty"`
-	Duedate     string `json:"duedate,omitempty"`
-	FixVersions []FID `json:"fixVersions,omitempty"`
-	Components []FID `json:"components,omitempty"`
+	Project          FID      `json:"project_get"`
+	Summary          string   `json:"summary"`
+	Issuetype        FID      `json:"issuetype"`
+	Assignee         FName    `json:"assignee,omitempty"`
+	Reporter         FName    `json:"reporter"`
+	Priority         FID      `json:"priority,omitempty"`
+	Labels           []string `json:"labels,omitempty"`
+	Timetracking     FTime    `json:"timetracking,omitempty"`
+	Versions         []FID    `json:"versions,omitempty"`
+	Environment      string   `json:"environment,omitempty"`
+	Description      string   `json:"description,omitempty"`
+	Duedate          string   `json:"duedate,omitempty"`
+	FixVersions      []FID    `json:"fixVersions,omitempty"`
+	Components       []FID    `json:"component,omitempty"`
 	Customfield30000 []string `json:"customfield_30000,omitempty"`
 	Customfield20000 string   `json:"customfield_20000,omitempty"`
 	Customfield40000 string   `json:"customfield_40000,omitempty"`
@@ -87,8 +87,8 @@ func (u *IssueService) Post(opts *IssuePostOption) (v *IssuePostObject, resp *ht
 }
 
 type IssueGetOption struct {
-	IssueIdOrKey string `url:"issueIdOrKey"`
-	updateHistory bool `url:"updateHistory,omitempty"`
+	IssueIdOrKey  string `url:"issueIdOrKey"`
+	UpdateHistory bool   `url:"updateHistory,omitempty"`
 }
 
 type IssueGetObject struct {
@@ -106,7 +106,7 @@ type IssueGetObject struct {
 			Subtask     bool   `json:"subtask"`
 			AvatarID    int    `json:"avatarId"`
 		} `json:"issuetype"`
-		Components           []interface{} `json:"components"`
+		Components           []interface{} `json:"component"`
 		Timespent            interface{}   `json:"timespent"`
 		Timeoriginalestimate interface{}   `json:"timeoriginalestimate"`
 		Description          interface{}   `json:"description"`
@@ -122,7 +122,7 @@ type IssueGetObject struct {
 				One6X16   string `json:"16x16"`
 				Three2X32 string `json:"32x32"`
 			} `json:"avatarUrls"`
-		} `json:"project"`
+		} `json:"project_get"`
 		FixVersions        []interface{} `json:"fixVersions"`
 		Aggregatetimespent interface{}   `json:"aggregatetimespent"`
 		Resolution         interface{}   `json:"resolution"`
@@ -246,7 +246,7 @@ type IssueGetObject struct {
 	} `json:"fields"`
 }
 
-func (u *IssueService) Get(opts *IssueGetOption)(v *IssueGetObject, resp *http.Response, err error) {
+func (u *IssueService) Get(opts *IssueGetOption) (v *IssueGetObject, resp *http.Response, err error) {
 	path := fmt.Sprintf("%v/rest/api/2/issue/%v?updateHistory=true", u.client.endpoint, opts.IssueIdOrKey)
 	req, err := http.NewRequest("GET", path, nil)
 	if err != nil {
@@ -263,11 +263,11 @@ func (u *IssueService) Get(opts *IssueGetOption)(v *IssueGetObject, resp *http.R
 }
 
 type IssueAssigneePutOption struct {
-	Name string `json:"name"`
+	Name         string `json:"name"`
 	IssueIdOrKey string `url:"issueIdOrKey" json:"-"`
 }
 
-type IssueAssigneePutObject struct {}
+type IssueAssigneePutObject struct{}
 
 func (u *IssueService) Assignee(opts *IssueAssigneePutOption) (v *IssueAssigneePutObject, resp *http.Response, err error) {
 	path := fmt.Sprintf("%v/rest/api/2/issue/%v/assignee", u.client.endpoint, opts.IssueIdOrKey)
@@ -333,9 +333,9 @@ type CommentBody struct {
 }
 
 type IssueCommentGetObject struct {
-	StartAt    int `json:"startAt"`
-	MaxResults int `json:"maxResults"`
-	Total      int `json:"total"`
+	StartAt    int           `json:"startAt"`
+	MaxResults int           `json:"maxResults"`
+	Total      int           `json:"total"`
 	Comments   []CommentBody `json:"comments"`
 }
 
@@ -357,13 +357,13 @@ func (u *IssueService) CommentGet(opts *IssueCommentGetOption) (v *IssueCommentG
 }
 
 type IssueCommentPostOption struct {
-	IssueIdOrKey string `url:"issueIdOrKey" json:"-"`
-	Body string `json:"body"`
-	Visibility IssueVisibility `json:"visibility,omitempty"`
+	IssueIdOrKey string          `url:"issueIdOrKey" json:"-"`
+	Body         string          `json:"body"`
+	Visibility   IssueVisibility `json:"visibility,omitempty"`
 }
 
 type IssueVisibility struct {
-	Type string `json:"type,omitempty"`
+	Type  string `json:"type,omitempty"`
 	Value string `json:"value,omitempty"`
 }
 
@@ -432,7 +432,7 @@ type IssueTransitionsGetOption struct {
 }
 
 type IssueTransitionsGetObject struct {
-	Expand      string `json:"expand"`
+	Expand      string              `json:"expand"`
 	Transitions []TransitionsObject `json:"transitions"`
 }
 
@@ -456,7 +456,7 @@ type TransitionsObject struct {
 }
 
 // issue流转
-func (u *IssueService) TransitionsGet(opts *IssueTransitionsGetOption)  (v *IssueTransitionsGetObject, resp *http.Response, err error)  {
+func (u *IssueService) TransitionsGet(opts *IssueTransitionsGetOption) (v *IssueTransitionsGetObject, resp *http.Response, err error) {
 	path := fmt.Sprintf("%v/rest/api/2/issue/%v/transitions", u.client.endpoint, opts.IssueIdOrKey)
 	if len(opts.TransitionId) > 0 {
 		path = fmt.Sprintf("%v?transitionId=%v", path, opts.TransitionId)
@@ -504,10 +504,9 @@ type IssueTransitionsPostOption struct {
 }
 
 type IssueTransitionsPostObject struct {
-
 }
 
-func (u *IssueService) TransitionsPost(opts *IssueTransitionsPostOption)  (v *IssueTransitionsPostObject, resp *http.Response, err error)  {
+func (u *IssueService) TransitionsPost(opts *IssueTransitionsPostOption) (v *IssueTransitionsPostObject, resp *http.Response, err error) {
 	path := fmt.Sprintf("%v/rest/api/2/issue/%v/transitions", u.client.endpoint, opts.IssueIdOrKey)
 	optv, _ := json.Marshal(opts)
 	req, err := http.NewRequest("POST", path, bytes.NewBuffer(optv))
@@ -525,14 +524,14 @@ func (u *IssueService) TransitionsPost(opts *IssueTransitionsPostOption)  (v *Is
 }
 
 type IssueMetaOption struct {
-	ProjectIds string `url:"projectIds"`
-	ProjectKeys string `url:"projectKeys"`
-	IssuetypeIds string `url:"issuetypeIds"`
+	ProjectIds     string `url:"projectIds"`
+	ProjectKeys    string `url:"projectKeys"`
+	IssuetypeIds   string `url:"issuetypeIds"`
 	IssuetypeNames string `url:"issuetypeNames"`
 }
 
 type IssueMetaObject struct {
-	Expand   string `json:"expand"`
+	Expand   string          `json:"expand"`
 	Projects []ProjectObject `json:"projects"`
 }
 
@@ -540,7 +539,7 @@ func (u *IssueService) Meta(opts *IssueMetaOption) (v *IssueMetaObject, resp *ht
 	path := fmt.Sprintf("%v/rest/api/2/issue/createmeta", u.client.endpoint)
 	optv, _ := query.Values(opts)
 
-	req, err := http.NewRequest("GET", path + "?" + optv.Encode(), nil)
+	req, err := http.NewRequest("GET", path+"?"+optv.Encode(), nil)
 	if err != nil {
 		return
 	}

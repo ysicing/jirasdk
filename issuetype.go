@@ -22,14 +22,14 @@ type IssueTypeObject struct {
 	AvatarID    int    `json:"avatarId,omitempty"`
 }
 
-type IssueTypeGetOption struct {}
+type IssueTypeGetOption struct{}
 
 type IssueTypeGetObject []IssueTypeObject
 
 func (u *IssueTypeService) Get(opts *IssueTypeGetOption) (v *IssueTypeGetObject, resp *http.Response, err error) {
 	path := u.client.endpoint + "/rest/api/2/issuetype"
 	optv, _ := query.Values(opts)
-	req, err := http.NewRequest("GET", path + "?" + optv.Encode(), nil)
+	req, err := http.NewRequest("GET", path+"?"+optv.Encode(), nil)
 	if err != nil {
 		return
 	}

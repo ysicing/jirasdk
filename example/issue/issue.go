@@ -11,33 +11,33 @@ import (
 
 var jiraapi *jirasdk.Client
 
-func init()  {
+func init() {
 	c, err := jirasdk.NewClient("http://172.16.74.113:8080", "Jarvisbot", "12345678")
-	if  err != nil {
+	if err != nil {
 		panic(err)
 	}
 	jiraapi = c
 }
 
-func create()  {
+func create() {
 	f := jirasdk.Fields{
-		Project:          jirasdk.FID{
+		Project: jirasdk.FID{
 			ID: "10000",
 		},
-		Summary:          "测试",
-		Issuetype:        jirasdk.FID{
+		Summary: "测试",
+		Issuetype: jirasdk.FID{
 			ID: "10002",
 		},
-		Assignee:         jirasdk.FName{
+		Assignee: jirasdk.FName{
 			Name: "jarvisbot",
 		},
-		Reporter:         jirasdk.FName{
+		Reporter: jirasdk.FName{
 			Name: "jarvisbot",
 		},
 		Priority: jirasdk.FID{
 			ID: "3",
 		},
-		Labels:           []string{"demo"},
+		Labels: []string{"demo"},
 	}
 	ic := jirasdk.IssuePostOption{
 		Fields: f,
@@ -52,7 +52,7 @@ func create()  {
 	get(v.Key)
 }
 
-func get(keyid string)  {
+func get(keyid string) {
 	ig := jirasdk.IssueGetOption{
 		IssueIdOrKey: keyid,
 	}
@@ -65,7 +65,7 @@ func get(keyid string)  {
 	spew.Dump(v)
 }
 
-func showmeta(name string)  {
+func showmeta(name string) {
 	im := jirasdk.IssueMetaOption{
 		ProjectKeys: name,
 	}
@@ -78,7 +78,7 @@ func showmeta(name string)  {
 	spew.Dump(v)
 }
 
-func main()  {
+func main() {
 	create()
 	showmeta("DEV")
 }

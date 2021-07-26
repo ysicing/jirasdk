@@ -15,16 +15,17 @@ import (
 
 type Client struct {
 	username, password, endpoint string
-	httpClient *http.Client
-	User *UserService
-	Project *ProjectService
-	Issue *IssueService
-	IssueType *IssueTypeService
-	Priority *PriorityService
-	Status *StatusService
+	httpClient                   *http.Client
+	User                         *UserService
+	Project                      *ProjectService
+	Issue                        *IssueService
+	IssueType                    *IssueTypeService
+	Priority                     *PriorityService
+	Status                       *StatusService
+	Component                    *ComponentService
 }
 
-func NewClient(endpoint, username, password  string) (*Client, error)  {
+func NewClient(endpoint, username, password string) (*Client, error) {
 	c := &Client{username: username, password: password, httpClient: http.DefaultClient}
 	if endpoint == "" {
 		endpoint = defaultBaseURL
@@ -36,7 +37,8 @@ func NewClient(endpoint, username, password  string) (*Client, error)  {
 	c.IssueType = &IssueTypeService{client: c}
 	c.Priority = &PriorityService{client: c}
 	c.Status = &StatusService{client: c}
-	return c,  nil
+	c.Component = &ComponentService{client: c}
+	return c, nil
 }
 
 func (c *Client) requestExtHeader(req *http.Request) {
@@ -72,8 +74,8 @@ func Do(c *http.Client, req *http.Request, v interface{}) (*http.Response, error
 }
 
 type ErrorResponse struct {
-	Response *http.Response `json:"-"`
-	ErrorMessages []string `json:"errorMessages"`
+	Response      *http.Response    `json:"-"`
+	ErrorMessages []string          `json:"errorMessages"`
 	Errors        map[string]string `json:"errors"`
 }
 
@@ -93,7 +95,9 @@ func CheckResponse(r *http.Response) error {
 	errorResponse := &ErrorResponse{Response: r}
 	data, err := ioutil.ReadAll(r.Body)
 	if err == nil && data != nil {
-		json.Unmarshal(data, &errorResponse)
+		if err := json.Unmarshal(data, &errorResponse); err != nil {
+			return err
+		}
 	}
 	if len(errorResponse.ErrorMessages) > 0 {
 		return errors.New(errorResponse.ErrorMessages[0])

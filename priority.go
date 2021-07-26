@@ -21,14 +21,14 @@ type PriorityObject struct {
 	ID          string `json:"id"`
 }
 
-type PriorityGetOption struct {}
+type PriorityGetOption struct{}
 
 type PriorityGetObject []PriorityObject
 
 func (u *PriorityService) Get(opts *PriorityGetOption) (v *PriorityGetObject, resp *http.Response, err error) {
 	path := u.client.endpoint + "/rest/api/2/priority"
 	optv, _ := query.Values(opts)
-	req, err := http.NewRequest("GET", path + "?" + optv.Encode(), nil)
+	req, err := http.NewRequest("GET", path+"?"+optv.Encode(), nil)
 	if err != nil {
 		return
 	}

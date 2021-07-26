@@ -1,6 +1,3 @@
-// AGPL License
-// Copyright (c) 2021 ysicing <i@ysicing.me>
-
 package main
 
 import (
@@ -19,24 +16,28 @@ func init() {
 	jiraapi = c
 }
 
-func list() {
-	pg := jirasdk.IssueTypeGetOption{}
-	v, resp, err := jiraapi.IssueType.Get(&pg)
+func list(keyid string) {
+	cg := jirasdk.ComponentGetOption{
+		ProjectIdOrKey: keyid,
+	}
+	v, resp, err := jiraapi.Component.Get(&cg)
 	if err != nil {
+		fmt.Println(resp.StatusCode, err)
 		panic(err)
 	}
 	fmt.Println(resp.StatusCode)
 	spew.Dump(v)
 }
 
-func search(name string) {
-	pg := jirasdk.ProjectSearchOption{
-		IncludeArchived: true,
-		Search:          name,
-		MaxResults:      1,
+func post(p, n, d string) {
+	cg := jirasdk.ComponentPostOption{
+		Name:        n,
+		Description: d,
+		Project:     p,
 	}
-	v, resp, err := jiraapi.Project.Search(&pg)
+	v, resp, err := jiraapi.Component.Post(&cg)
 	if err != nil {
+		fmt.Println(resp.StatusCode, err)
 		panic(err)
 	}
 	fmt.Println(resp.StatusCode)
@@ -44,6 +45,7 @@ func search(name string) {
 }
 
 func main() {
-	list()
-	search("待办")
+	list("DEV")
+	post("DEV", "Applex", "apple demo")
+	list("DEV")
 }

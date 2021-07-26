@@ -11,15 +11,15 @@ import (
 
 var jiraapi *jirasdk.Client
 
-func init()  {
+func init() {
 	c, err := jirasdk.NewClient("http://172.16.74.113:8080", "Jarvisbot", "12345678")
-	if  err != nil {
+	if err != nil {
 		panic(err)
 	}
 	jiraapi = c
 }
 
-func list()  {
+func list() {
 	pg := jirasdk.PriorityGetOption{}
 	v, resp, err := jiraapi.Priority.Get(&pg)
 	if err != nil {
@@ -29,7 +29,6 @@ func list()  {
 	spew.Dump(v)
 }
 
-func main()  {
+func main() {
 	list()
 }
-

@@ -11,15 +11,15 @@ import (
 
 var jiraapi *jirasdk.Client
 
-func init()  {
+func init() {
 	c, err := jirasdk.NewClient("http://172.16.74.113:8080", "Jarvisbot", "12345678")
-	if  err != nil {
+	if err != nil {
 		panic(err)
 	}
 	jiraapi = c
 }
 
-func commentlist(keyid string)  {
+func commentlist(keyid string) {
 	ig := jirasdk.IssueCommentGetOption{
 		IssueIdOrKey: keyid,
 	}
@@ -32,10 +32,10 @@ func commentlist(keyid string)  {
 	spew.Dump(v)
 }
 
-func commentadd(keyid, msg string, readyonly bool)  {
+func commentadd(keyid, msg string, readyonly bool) {
 	ig := jirasdk.IssueCommentPostOption{
 		IssueIdOrKey: keyid,
-		Body: msg,
+		Body:         msg,
 	}
 	if readyonly {
 		ig.Visibility = jirasdk.IssueVisibility{
@@ -52,7 +52,7 @@ func commentadd(keyid, msg string, readyonly bool)  {
 	spew.Dump(v)
 }
 
-func main()  {
+func main() {
 	commentlist("DEV-2")
 	commentadd("DEV-2", "只读", true)
 	commentadd("DEV-2", "读写", false)

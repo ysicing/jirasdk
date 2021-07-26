@@ -12,9 +12,9 @@ import (
 
 var jiraapi *jirasdk.Client
 
-func init()  {
+func init() {
 	c, err := jirasdk.NewClient("http://172.16.74.113:8080", "Jarvisbot", "12345678")
-	if  err != nil {
+	if err != nil {
 		panic(err)
 	}
 	jiraapi = c
@@ -34,8 +34,8 @@ func get(name ...string) {
 	}
 	fmt.Println(resp.StatusCode)
 	spew.Dump(v)
-	for _,j := range v.Transitions {
-		log.Printf("id: %v, name: %v",j.To.ID, j.To.Name)
+	for _, j := range v.Transitions {
+		log.Printf("id: %v, name: %v", j.To.ID, j.To.Name)
 	}
 }
 
@@ -45,7 +45,7 @@ func post(name string, next string) {
 
 	it := jirasdk.IssueTransitionsPostOption{
 		IssueIdOrKey: name,
-		Transition: tt,
+		Transition:   tt,
 	}
 
 	v, resp, err := jiraapi.Issue.TransitionsPost(&it)
@@ -57,7 +57,7 @@ func post(name string, next string) {
 	spew.Dump(v)
 }
 
-func main()  {
+func main() {
 	get("DEV-3")
 	post("DEV-3", "111")
 	get("DEV-3")

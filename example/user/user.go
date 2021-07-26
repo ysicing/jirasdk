@@ -11,15 +11,15 @@ import (
 
 var jiraapi *jirasdk.Client
 
-func init()  {
+func init() {
 	c, err := jirasdk.NewClient("http://172.16.74.113:8080", "Jarvisbot", "12345678")
-	if  err != nil {
+	if err != nil {
 		panic(err)
 	}
 	jiraapi = c
 }
 
-func userget(user string)  {
+func userget(user string) {
 	ug := jirasdk.UserGetOption{
 		UserName: user,
 	}
@@ -31,9 +31,9 @@ func userget(user string)  {
 	spew.Dump(v)
 }
 
-func usersearch(user string)  {
+func usersearch(user string) {
 	us := jirasdk.UserSearchOption{
-		UserName:        user,
+		UserName: user,
 		// MaxResults:      100,
 		IncludeActive:   true,
 		IncludeInactive: false,
@@ -47,10 +47,10 @@ func usersearch(user string)  {
 	spew.Dump(v)
 }
 
-func userassignable(user, project string)  {
+func userassignable(user, project string) {
 	ua := jirasdk.UserAssignableOption{
-		UserName:        user,
-		Project: project,
+		UserName:   user,
+		Project:    project,
 		MaxResults: 1,
 	}
 	v, resp, err := jiraapi.User.Assignable(&ua)
@@ -61,8 +61,7 @@ func userassignable(user, project string)  {
 	spew.Dump(v)
 }
 
-
-func main()  {
+func main() {
 	userget("Jarvisbot")
 	usersearch("chix")
 	userassignable("chix", "DEV")

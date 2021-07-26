@@ -72,15 +72,15 @@ type ProjectStatusGetOptions struct {
 type ProjectStatusObject []PStatusObject
 
 type PStatusObject struct {
-	Self     string `json:"self"`
-	ID       string `json:"id"`
-	Name     string `json:"name"`
-	Subtask  bool   `json:"subtask"`
+	Self     string         `json:"self"`
+	ID       string         `json:"id"`
+	Name     string         `json:"name"`
+	Subtask  bool           `json:"subtask"`
 	Statuses []StatusObject `json:"statuses"`
 }
 
 func (u *StatusService) ProjectStatusGet(opts *ProjectStatusGetOptions) (v *ProjectStatusObject, resp *http.Response, err error) {
-	path := fmt.Sprintf("%v/rest/api/2/project/%v/statuses", u.client.endpoint, opts.ProjectIdOrKey)
+	path := fmt.Sprintf("%v/rest/api/2/project_get/%v/statuses", u.client.endpoint, opts.ProjectIdOrKey)
 	req, err := http.NewRequest("GET", path, nil)
 	if err != nil {
 		return

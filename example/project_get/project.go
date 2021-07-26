@@ -11,15 +11,15 @@ import (
 
 var jiraapi *jirasdk.Client
 
-func init()  {
+func init() {
 	c, err := jirasdk.NewClient("http://172.16.74.113:8080", "Jarvisbot", "12345678")
-	if  err != nil {
+	if err != nil {
 		panic(err)
 	}
 	jiraapi = c
 }
 
-func list()  {
+func list() {
 	pg := jirasdk.ProjectGetOption{
 		IncludeArchived: true,
 	}
@@ -31,11 +31,11 @@ func list()  {
 	spew.Dump(v)
 }
 
-func search(name string)  {
+func search(name string) {
 	pg := jirasdk.ProjectSearchOption{
 		IncludeArchived: true,
-		Search: name,
-		MaxResults: 1,
+		Search:          name,
+		MaxResults:      1,
 	}
 	v, resp, err := jiraapi.Project.Search(&pg)
 	if err != nil {
@@ -45,7 +45,7 @@ func search(name string)  {
 	spew.Dump(v)
 }
 
-func main()  {
+func main() {
 	list()
 	search("DEV")
 }
