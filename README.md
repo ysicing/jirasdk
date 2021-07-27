@@ -32,7 +32,9 @@
 
 ### 问题类型IssueType
 
+- List
 - Get
+- Post
 
 ### 问题issue
 
