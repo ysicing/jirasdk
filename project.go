@@ -62,7 +62,7 @@ type Lead struct {
 }
 
 func (u *ProjectService) Get(opts *ProjectGetOption) (v *ProjectGetObject, resp *http.Response, err error) {
-	path := u.client.endpoint + "/rest/api/2/project_get"
+	path := u.client.endpoint + "/rest/api/2/project"
 	opts.Check()
 	optv, _ := query.Values(opts)
 	req, err := http.NewRequest("GET", path+"?"+optv.Encode(), nil)
@@ -93,7 +93,7 @@ func (p *ProjectSearchOption) Check() {
 }
 
 func (u *ProjectService) Search(opts *ProjectSearchOption) (v *ProjectGetObject, resp *http.Response, err error) {
-	path := u.client.endpoint + "/rest/api/2/project_get"
+	path := u.client.endpoint + "/rest/api/2/project"
 	opts.Check()
 	optv, _ := query.Values(opts)
 	req, err := http.NewRequest("GET", path+"?"+optv.Encode(), nil)

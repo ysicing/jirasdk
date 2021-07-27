@@ -80,7 +80,7 @@ type PStatusObject struct {
 }
 
 func (u *StatusService) ProjectStatusGet(opts *ProjectStatusGetOptions) (v *ProjectStatusObject, resp *http.Response, err error) {
-	path := fmt.Sprintf("%v/rest/api/2/project_get/%v/statuses", u.client.endpoint, opts.ProjectIdOrKey)
+	path := fmt.Sprintf("%v/rest/api/2/project/%v/statuses", u.client.endpoint, opts.ProjectIdOrKey)
 	req, err := http.NewRequest("GET", path, nil)
 	if err != nil {
 		return

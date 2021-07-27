@@ -36,7 +36,7 @@ type FTime struct {
 }
 
 type Fields struct {
-	Project          FID      `json:"project_get"`
+	Project          FID      `json:"project"`
 	Summary          string   `json:"summary"`
 	Issuetype        FID      `json:"issuetype"`
 	Assignee         FName    `json:"assignee,omitempty"`
@@ -122,7 +122,7 @@ type IssueGetObject struct {
 				One6X16   string `json:"16x16"`
 				Three2X32 string `json:"32x32"`
 			} `json:"avatarUrls"`
-		} `json:"project_get"`
+		} `json:"project"`
 		FixVersions        []interface{} `json:"fixVersions"`
 		Aggregatetimespent interface{}   `json:"aggregatetimespent"`
 		Resolution         interface{}   `json:"resolution"`
