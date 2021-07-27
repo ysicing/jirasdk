@@ -5,6 +5,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/davecgh/go-spew/spew"
 	"github.com/ysicing/jirasdk"
 )
@@ -20,8 +21,8 @@ func init() {
 }
 
 func list() {
-	pg := jirasdk.IssueTypeGetOption{}
-	v, resp, err := jiraapi.IssueType.Get(&pg)
+	itl := jirasdk.IssueTypeListOption{}
+	v, resp, err := jiraapi.IssueType.List(&itl)
 	if err != nil {
 		panic(err)
 	}
@@ -29,21 +30,35 @@ func list() {
 	spew.Dump(v)
 }
 
-func search(name string) {
-	pg := jirasdk.ProjectSearchOption{
-		IncludeArchived: true,
-		Search:          name,
-		MaxResults:      1,
+func get(id string) {
+	itg := jirasdk.IssueTypeGetOption{
+		ID: id,
 	}
-	v, resp, err := jiraapi.Project.Search(&pg)
+	v, resp, err := jiraapi.IssueType.Get(&itg)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(resp.StatusCode)
 	spew.Dump(v)
+}
+
+func create(name, desc string, keytype jirasdk.IssueTypeType) {
+	itp := jirasdk.IssueTypePostOption{
+		Name:        name,
+		Description: desc,
+		Type:        keytype,
+	}
+	v, resp, err := jiraapi.IssueType.Post(&itp)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(resp.StatusCode)
+	spew.Dump(v)
+	get(v.ID)
 }
 
 func main() {
+	create("标准xx", "标准xx", jirasdk.Standard)
+	create("子任务xx", "子任务xx", jirasdk.Subtask)
 	list()
-	search("待办")
 }
