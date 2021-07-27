@@ -25,15 +25,15 @@ type ComponentObject struct {
 	ID                  string `json:"id"`
 	Name                string `json:"name"`
 	Lead                Lead   `json:"lead,omitempty"`
-	Description         string `json:"description"`
-	Assigneetype        string `json:"assigneeType"`
+	Description         string `json:"description,omitempty"`
+	Assigneetype        string `json:"assigneeType,omitempty"`
 	Assignee            Lead   `json:"assignee,omitempty"`
-	Realassigneetype    string `json:"realAssigneeType"`
+	Realassigneetype    string `json:"realAssigneeType,omitempty"`
 	Realassignee        Lead   `json:"realassignee,omitempty"`
 	Isassigneetypevalid bool   `json:"isAssigneeTypeValid"`
-	Project             string `json:"project"`
-	Projectid           int    `json:"projectId"`
-	Archived            bool   `json:"archived"`
+	Project             string `json:"project,omitempty"`
+	Projectid           int    `json:"projectId,omitempty"`
+	Archived            bool   `json:"archived,omitempty"`
 }
 
 func (u *ComponentService) Get(opts *ComponentGetOption) (v *ComponentGetObject, resp *http.Response, err error) {

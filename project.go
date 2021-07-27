@@ -6,9 +6,10 @@ package jirasdk
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/google/go-querystring/query"
+	"fmt"
 	"net/http"
-	"strings"
+
+	"github.com/google/go-querystring/query"
 )
 
 type ProjectService struct {
@@ -29,12 +30,13 @@ func (p *ProjectGetOption) Check() {
 type ProjectGetObject []ProjectObject
 
 type ProjectObject struct {
-	Expand     string `json:"expand,omitempty"`
-	Self       string `json:"self"`
-	ID         string `json:"id"`
-	Key        string `json:"key"`
-	Name       string `json:"name"`
-	AvatarUrls struct {
+	Expand      string `json:"expand,omitempty"`
+	Self        string `json:"self"`
+	ID          string `json:"id"`
+	Key         string `json:"key"`
+	Name        string `json:"name"`
+	Description string `json:"description,omitempty"`
+	AvatarUrls  struct {
 		Four8X48  string `json:"48x48"`
 		Two4X24   string `json:"24x24"`
 		One6X16   string `json:"16x16"`
@@ -45,6 +47,16 @@ type ProjectObject struct {
 	Issuetypes     []IssueTypeObject `json:"issuetypes,omitempty"`
 	Lead           Lead              `json:"lead,omitempty"`
 	URL            string            `json:"url,omitempty"`
+	Components     []ComponentObject `json:"components,omitempty"`
+	IssueTypes     []IssueTypeObject `json:"issueTypes,omitempty"`
+	AssigneeType   string            `json:"assigneeType"`
+	Versions       []interface{}     `json:"versions"`
+	Archived       bool              `json:"archived"`
+	Roles          Roles             `json:"roles"`
+}
+
+type Roles struct {
+	Administrators string `json:"Administrators"`
 }
 
 type Lead struct {
@@ -86,14 +98,16 @@ type ProjectSearchOption struct {
 	Expand          string `json:"expand,omitempty"`
 }
 
+type ProjectSearchObject ProjectObject
+
 func (p *ProjectSearchOption) Check() {
 	if len(p.Expand) == 0 {
 		p.Expand = "description,lead,url,projectKeys"
 	}
 }
 
-func (u *ProjectService) Search(opts *ProjectSearchOption) (v *ProjectGetObject, resp *http.Response, err error) {
-	path := u.client.endpoint + "/rest/api/2/project"
+func (u *ProjectService) Search(opts *ProjectSearchOption) (v *ProjectSearchObject, resp *http.Response, err error) {
+	path := fmt.Sprintf("%v/rest/api/2/project/%v", u.client.endpoint, opts.Search)
 	opts.Check()
 	optv, _ := query.Values(opts)
 	req, err := http.NewRequest("GET", path+"?"+optv.Encode(), nil)
@@ -102,21 +116,12 @@ func (u *ProjectService) Search(opts *ProjectSearchOption) (v *ProjectGetObject,
 	}
 	u.client.requestExtHeader(req)
 	req.Header.Set("Content-Type", "application/json")
-	v = new(ProjectGetObject)
+	v = new(ProjectSearchObject)
 	resp, err = u.client.Do(req, v)
 	if err != nil {
 		return nil, resp, err
 	}
-	var vv ProjectGetObject
-	for i, j := range *v {
-		if strings.Contains(j.Name, opts.Search) || strings.Contains(j.Key, opts.Search) {
-			vv = append(vv, j)
-		}
-		if i == opts.MaxResults {
-			break
-		}
-	}
-	return &vv, resp, err
+	return
 }
 
 type ProjectTypeGetOption struct{}
