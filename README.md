@@ -57,3 +57,8 @@
 
 - Get
 - Post
+
+### issue流程管理方案Scheme
+
+- List
+- Get

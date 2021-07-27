@@ -26,6 +26,7 @@ type Client struct {
 	Status                       *StatusService
 	Component                    *ComponentService
 	Transitions                  *TransitionsService
+	Scheme                       *SchemeService
 }
 
 func NewClient(endpoint, username, password string) (*Client, error) {
@@ -43,6 +44,7 @@ func NewClient(endpoint, username, password string) (*Client, error) {
 	c.Status = &StatusService{client: c}
 	c.Component = &ComponentService{client: c}
 	c.Transitions = &TransitionsService{client: c}
+	c.Scheme = &SchemeService{client: c}
 	return c, nil
 }
 
