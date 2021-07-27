@@ -5,9 +5,10 @@ package main
 
 import (
 	"fmt"
+	"log"
+
 	"github.com/davecgh/go-spew/spew"
 	"github.com/ysicing/jirasdk"
-	"log"
 )
 
 var jiraapi *jirasdk.Client
@@ -27,7 +28,7 @@ func get(name ...string) {
 	if len(name) > 1 {
 		it.TransitionId = name[1]
 	}
-	v, resp, err := jiraapi.Issue.TransitionsGet(&it)
+	v, resp, err := jiraapi.Transitions.Get(&it)
 	if err != nil {
 		fmt.Println(resp.StatusCode, err)
 		panic(err)
@@ -48,7 +49,7 @@ func post(name string, next string) {
 		Transition:   tt,
 	}
 
-	v, resp, err := jiraapi.Issue.TransitionsPost(&it)
+	v, resp, err := jiraapi.Transitions.Post(&it)
 	if err != nil {
 		fmt.Println(resp.StatusCode, err)
 		panic(err)
