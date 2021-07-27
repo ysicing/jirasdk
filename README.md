@@ -36,16 +36,22 @@
 
 ### 问题issue
 
-- Post
-- Get
-- Assignee
-- CommentGet
-- CommentPost
-- TransitionsGet
-- TransitionsPost
 - Meta
+- Get
+- Post
+- Assignee
 
-### 模块Component
+## issue流转Transitions
+
+- Get
+- Post
+
+### issue模块Component
+
+- Get
+- Post
+
+### issue评论Comment
 
 - Get
 - Post

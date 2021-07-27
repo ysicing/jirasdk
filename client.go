@@ -6,11 +6,12 @@ package jirasdk
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/pkg/errors"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+
+	"github.com/pkg/errors"
 )
 
 type Client struct {
@@ -19,10 +20,12 @@ type Client struct {
 	User                         *UserService
 	Project                      *ProjectService
 	Issue                        *IssueService
+	Comment                      *CommentService
 	IssueType                    *IssueTypeService
 	Priority                     *PriorityService
 	Status                       *StatusService
 	Component                    *ComponentService
+	Transitions                  *TransitionsService
 }
 
 func NewClient(endpoint, username, password string) (*Client, error) {
@@ -34,10 +37,12 @@ func NewClient(endpoint, username, password string) (*Client, error) {
 	c.User = &UserService{client: c}
 	c.Project = &ProjectService{client: c}
 	c.Issue = &IssueService{client: c}
+	c.Comment = &CommentService{client: c}
 	c.IssueType = &IssueTypeService{client: c}
 	c.Priority = &PriorityService{client: c}
 	c.Status = &StatusService{client: c}
 	c.Component = &ComponentService{client: c}
+	c.Transitions = &TransitionsService{client: c}
 	return c, nil
 }
 

@@ -5,6 +5,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/davecgh/go-spew/spew"
 	"github.com/ysicing/jirasdk"
 )
@@ -23,7 +24,7 @@ func commentlist(keyid string) {
 	ig := jirasdk.IssueCommentGetOption{
 		IssueIdOrKey: keyid,
 	}
-	v, resp, err := jiraapi.Issue.CommentGet(&ig)
+	v, resp, err := jiraapi.Comment.Get(&ig)
 	if err != nil {
 		fmt.Println(resp.StatusCode, err)
 		panic(err)
@@ -43,7 +44,7 @@ func commentadd(keyid, msg string, readyonly bool) {
 			Value: "Administrators",
 		}
 	}
-	v, resp, err := jiraapi.Issue.CommentPost(&ig)
+	v, resp, err := jiraapi.Comment.Post(&ig)
 	if err != nil {
 		fmt.Println(resp.StatusCode, err)
 		panic(err)
