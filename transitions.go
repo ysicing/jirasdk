@@ -25,22 +25,9 @@ type IssueTransitionsGetObject struct {
 }
 
 type TransitionsObject struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
-	To   struct {
-		Self           string `json:"self"`
-		Description    string `json:"description"`
-		IconURL        string `json:"iconUrl"`
-		Name           string `json:"name"`
-		ID             string `json:"id"`
-		StatusCategory struct {
-			Self      string `json:"self"`
-			ID        int    `json:"id"`
-			Key       string `json:"key"`
-			ColorName string `json:"colorName"`
-			Name      string `json:"name"`
-		} `json:"statusCategory"`
-	} `json:"to"`
+	ID   string       `json:"id"`
+	Name string       `json:"name"`
+	To   StatusObject `json:"to"`
 }
 
 // issue流转
