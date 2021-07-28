@@ -18,43 +18,31 @@ type IssueCommentGetOption struct {
 	IssueIdOrKey string `url:"issueIdOrKey"`
 }
 
+type AuthorObject struct {
+	Self         string `json:"self"`
+	Name         string `json:"name"`
+	Key          string `json:"key"`
+	EmailAddress string `json:"emailAddress"`
+	AvatarUrls   struct {
+		Four8X48  string `json:"48x48"`
+		Two4X24   string `json:"24x24"`
+		One6X16   string `json:"16x16"`
+		Three2X32 string `json:"32x32"`
+	} `json:"avatarUrls"`
+	DisplayName string `json:"displayName"`
+	Active      bool   `json:"active"`
+	TimeZone    string `json:"timeZone"`
+}
+
 type CommentBody struct {
-	Self   string `json:"self"`
-	ID     string `json:"id"`
-	Author struct {
-		Self         string `json:"self"`
-		Name         string `json:"name"`
-		Key          string `json:"key"`
-		EmailAddress string `json:"emailAddress"`
-		AvatarUrls   struct {
-			Four8X48  string `json:"48x48"`
-			Two4X24   string `json:"24x24"`
-			One6X16   string `json:"16x16"`
-			Three2X32 string `json:"32x32"`
-		} `json:"avatarUrls"`
-		DisplayName string `json:"displayName"`
-		Active      bool   `json:"active"`
-		TimeZone    string `json:"timeZone"`
-	} `json:"author"`
-	Body         string `json:"body"`
-	UpdateAuthor struct {
-		Self         string `json:"self"`
-		Name         string `json:"name"`
-		Key          string `json:"key"`
-		EmailAddress string `json:"emailAddress"`
-		AvatarUrls   struct {
-			Four8X48  string `json:"48x48"`
-			Two4X24   string `json:"24x24"`
-			One6X16   string `json:"16x16"`
-			Three2X32 string `json:"32x32"`
-		} `json:"avatarUrls"`
-		DisplayName string `json:"displayName"`
-		Active      bool   `json:"active"`
-		TimeZone    string `json:"timeZone"`
-	} `json:"updateAuthor"`
-	Created    string `json:"created"`
-	Updated    string `json:"updated"`
-	Visibility struct {
+	Self         string       `json:"self"`
+	ID           string       `json:"id"`
+	Author       AuthorObject `json:"author"`
+	Body         string       `json:"body"`
+	UpdateAuthor AuthorObject `json:"updateAuthor"`
+	Created      string       `json:"created"`
+	Updated      string       `json:"updated"`
+	Visibility   struct {
 		Type  string `json:"type"`
 		Value string `json:"value"`
 	} `json:"visibility,omitempty"`
@@ -96,42 +84,14 @@ type IssueVisibility struct {
 }
 
 type IssueCommentPostObject struct {
-	Self   string `json:"self"`
-	ID     string `json:"id"`
-	Author struct {
-		Self         string `json:"self"`
-		Name         string `json:"name"`
-		Key          string `json:"key"`
-		EmailAddress string `json:"emailAddress"`
-		AvatarUrls   struct {
-			Four8X48  string `json:"48x48"`
-			Two4X24   string `json:"24x24"`
-			One6X16   string `json:"16x16"`
-			Three2X32 string `json:"32x32"`
-		} `json:"avatarUrls"`
-		DisplayName string `json:"displayName"`
-		Active      bool   `json:"active"`
-		TimeZone    string `json:"timeZone"`
-	} `json:"author"`
-	Body         string `json:"body"`
-	UpdateAuthor struct {
-		Self         string `json:"self"`
-		Name         string `json:"name"`
-		Key          string `json:"key"`
-		EmailAddress string `json:"emailAddress"`
-		AvatarUrls   struct {
-			Four8X48  string `json:"48x48"`
-			Two4X24   string `json:"24x24"`
-			One6X16   string `json:"16x16"`
-			Three2X32 string `json:"32x32"`
-		} `json:"avatarUrls"`
-		DisplayName string `json:"displayName"`
-		Active      bool   `json:"active"`
-		TimeZone    string `json:"timeZone"`
-	} `json:"updateAuthor"`
-	Created    string `json:"created"`
-	Updated    string `json:"updated"`
-	Visibility struct {
+	Self         string       `json:"self"`
+	ID           string       `json:"id"`
+	Author       AuthorObject `json:"author"`
+	Body         string       `json:"body"`
+	UpdateAuthor AuthorObject `json:"updateAuthor"`
+	Created      string       `json:"created"`
+	Updated      string       `json:"updated"`
+	Visibility   struct {
 		Type  string `json:"type"`
 		Value string `json:"value"`
 	} `json:"visibility"`

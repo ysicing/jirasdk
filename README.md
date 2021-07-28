@@ -1,6 +1,9 @@
 ## JiraSDK
 
-> Go client library for Jira
+> Go client library for [Jira](https://developer.atlassian.com/cloud/jira/platform/rest/v2/intro/)
+
+> `go get -u github.com/ysicing/jirasdk`
+
 
 ##  Requirements
 
@@ -62,3 +65,29 @@
 
 - List
 - Get
+
+## issue搜索IssueSearch
+
+- Get
+
+## issue关注watcher
+
+- Get
+- Post
+- Del
+
+## 角色role
+
+- List
+- Post
+- PGet # 查看项目角色成员
+- PGets # 查看项目角色列表
+
+## 角色成员roleuser
+
+- Get
+- Post
+- Del
+- DefaultGet # 全局
+- DefaultPost # 全局
+- DefaultDel # 全局

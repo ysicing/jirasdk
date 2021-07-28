@@ -4,8 +4,9 @@
 package jirasdk
 
 import (
-	"github.com/google/go-querystring/query"
 	"net/http"
+
+	"github.com/google/go-querystring/query"
 )
 
 type PriorityService struct {
@@ -14,8 +15,8 @@ type PriorityService struct {
 
 type PriorityObject struct {
 	Self        string `json:"self"`
-	StatusColor string `json:"statusColor"`
-	Description string `json:"description"`
+	StatusColor string `json:"statusColor,omitempty"`
+	Description string `json:"description,omitempty"`
 	IconURL     string `json:"iconUrl"`
 	Name        string `json:"name"`
 	ID          string `json:"id"`
