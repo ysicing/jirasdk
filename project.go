@@ -42,6 +42,7 @@ type ProjectObject struct {
 		One6X16   string `json:"16x16"`
 		Three2X32 string `json:"32x32"`
 	} `json:"avatarUrls"`
+	ProjectCategory ProjectCategory `json:"projectCategory,omitempty"`
 	ProjectTypeKey string            `json:"projectTypeKey,omitempty"`
 	Projectkeys    []string          `json:"projectKeys,omitempty"`
 	Issuetypes     []IssueTypeObject `json:"issuetypes,omitempty"`
@@ -53,6 +54,13 @@ type ProjectObject struct {
 	Versions       []interface{}     `json:"versions"`
 	Archived       bool              `json:"archived"`
 	Roles          Roles             `json:"roles"`
+}
+
+type ProjectCategory struct {
+	Self        string `json:"self"`
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }
 
 type Roles struct {
