@@ -35,4 +35,5 @@ func search(jql string) {
 
 func main() {
 	search("project = DEV AND status = Open")
+	search("status = Open")
 }

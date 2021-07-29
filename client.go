@@ -81,7 +81,7 @@ func Do(c *http.Client, req *http.Request, v interface{}) (*http.Response, error
 			_, err = io.Copy(w, resp.Body)
 		} else {
 			decoder := json.NewDecoder(resp.Body)
-			decoder.DisallowUnknownFields()
+			// decoder.DisallowUnknownFields()
 			err = decoder.Decode(v)
 		}
 	}
