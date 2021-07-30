@@ -20,24 +20,11 @@ func init() {
 	jiraapi = c
 }
 
-func search(jql string) {
-	iso := jirasdk.IssueSearchOption{
-		Jql: jql,
-	}
-	v, resp, err := jiraapi.IssueSearch.Get(&iso)
-	if err != nil {
-		fmt.Println(resp.StatusCode, err)
-		panic(err)
-	}
-	fmt.Println(resp.StatusCode)
-	spew.Dump(v)
-}
-
 func get(key string) {
-	igo := jirasdk.IssueGetOption{
-		IssueIdOrKey: key,
+	igo := jirasdk.FieldGetOption{
+		ProjectId: key,
 	}
-	v, resp, err := jiraapi.Issue.Get(&igo)
+	v, resp, err := jiraapi.CustomField.Get(&igo)
 	if err != nil {
 		fmt.Println(resp.StatusCode, err)
 		panic(err)
@@ -47,7 +34,5 @@ func get(key string) {
 }
 
 func main() {
-	search("project = DEV AND status = Open")
-	search("status = Open")
-	get("DEV-16")
+	get("DEV")
 }
