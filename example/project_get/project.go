@@ -5,6 +5,7 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/davecgh/go-spew/spew"
 	"github.com/ysicing/jirasdk"
 )
@@ -45,7 +46,28 @@ func search(name string) {
 	spew.Dump(v)
 }
 
+func projectissuetype() {
+	pitgo := jirasdk.ProjectIssueTypeGetOption{
+		Project:   "DEV",
+		Issuetype: "10000",
+	}
+	v, resp, err := jiraapi.Project.IssueTypeFields(&pitgo)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(resp.StatusCode)
+	spew.Dump(v)
+	fmt.Sprintln("------------------------------")
+	v1, resp1, err := jiraapi.Project.IssueTypeWorkflow(&pitgo)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(resp1.StatusCode)
+	spew.Dump(v1)
+}
+
 func main() {
 	list()
 	search("DEV")
+	projectissuetype()
 }

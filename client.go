@@ -32,6 +32,7 @@ type Client struct {
 	Role                         *RoleService
 	RoleUser                     *RoleUserService
 	CustomField                  *CustomFieldService
+	Workflow                     *WorkflowService
 }
 
 func NewClient(endpoint, username, password string) (*Client, error) {
@@ -55,6 +56,7 @@ func NewClient(endpoint, username, password string) (*Client, error) {
 	c.Role = &RoleService{client: c}
 	c.RoleUser = &RoleUserService{client: c}
 	c.CustomField = &CustomFieldService{client: c}
+	c.Workflow = &WorkflowService{client: c}
 	return c, nil
 }
 

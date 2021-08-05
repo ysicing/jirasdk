@@ -30,9 +30,9 @@ func (p *ProjectGetOption) Check() {
 type ProjectGetObject []ProjectObject
 
 type ProjectObject struct {
-	Expand      string `json:"expand,omitempty"`
-	Self        string `json:"self"`
-	ID          string `json:"id"`
+	Expand string `json:"expand,omitempty"`
+	Self   string `json:"self,omitempty"`
+	// ID          string `json:"id,omitempty"`
 	Key         string `json:"key"`
 	Name        string `json:"name"`
 	Description string `json:"description,omitempty"`
@@ -41,19 +41,19 @@ type ProjectObject struct {
 		Two4X24   string `json:"24x24"`
 		One6X16   string `json:"16x16"`
 		Three2X32 string `json:"32x32"`
-	} `json:"avatarUrls"`
-	ProjectCategory ProjectCategory `json:"projectCategory,omitempty"`
-	ProjectTypeKey string            `json:"projectTypeKey,omitempty"`
-	Projectkeys    []string          `json:"projectKeys,omitempty"`
-	Issuetypes     []IssueTypeObject `json:"issuetypes,omitempty"`
-	Lead           Lead              `json:"lead,omitempty"`
-	URL            string            `json:"url,omitempty"`
-	Components     []ComponentObject `json:"components,omitempty"`
-	IssueTypes     []IssueTypeObject `json:"issueTypes,omitempty"`
-	AssigneeType   string            `json:"assigneeType"`
-	Versions       []interface{}     `json:"versions"`
-	Archived       bool              `json:"archived"`
-	Roles          Roles             `json:"roles"`
+	} `json:"avatarUrls,omitempty"`
+	ProjectCategory ProjectCategory   `json:"projectCategory,omitempty"`
+	ProjectTypeKey  string            `json:"projectTypeKey,omitempty"`
+	Projectkeys     []string          `json:"projectKeys,omitempty"`
+	Issuetypes      []IssueTypeObject `json:"issuetypes,omitempty"`
+	Lead            Lead              `json:"lead,omitempty"`
+	URL             string            `json:"url,omitempty"`
+	Components      []ComponentObject `json:"components,omitempty"`
+	IssueTypes      []IssueTypeObject `json:"issueTypes,omitempty"`
+	AssigneeType    string            `json:"assigneeType"`
+	Versions        []interface{}     `json:"versions,omitempty"`
+	Archived        bool              `json:"archived,omitempty"`
+	Roles           Roles             `json:"roles,omitempty"`
 }
 
 type ProjectCategory struct {
@@ -204,6 +204,70 @@ func (u *ProjectService) Post(opts *ProjectPostOption) (v *ProjectPostObject, re
 	u.client.requestExtHeader(req)
 	req.Header.Set("Content-Type", "application/json")
 	v = new(ProjectPostObject)
+	resp, err = u.client.Do(req, v)
+	if err != nil {
+		return nil, resp, err
+	}
+	return
+}
+
+type ProjectIssueTypeGetOption struct {
+	Project   string `json:"project"`
+	Issuetype string `json:"issuetype"`
+}
+
+type ProjectIssueTypeFieldsObject struct {
+	ViewScreen ViewScreen `json:"viewScreen"`
+}
+
+type ViewScreen struct {
+	SharedWithProjects   []ProjectObject `json:"sharedWithProjects"`
+	SharedWithIssueTypes []string        `json:"sharedWithIssueTypes"`
+	TotalProjectsCount   int             `json:"totalProjectsCount"`
+	ScreenID             int             `json:"screenId"`
+	ScreenName           string          `json:"screenName"`
+	CanEdit              bool            `json:"canEdit"`
+	State                string          `json:"state"`
+	HiddenProjectsCount  int             `json:"hiddenProjectsCount"`
+}
+
+func (u *ProjectService) IssueTypeFields(opts *ProjectIssueTypeGetOption) (v *ProjectIssueTypeFieldsObject, resp *http.Response, err error) {
+	path := fmt.Sprintf("%v/rest/projectconfig/1/issuetype/%v/%v/fields", u.client.endpoint, opts.Project, opts.Issuetype)
+	req, err := http.NewRequest("GET", path, nil)
+	if err != nil {
+		return
+	}
+	u.client.requestExtHeader(req)
+	req.Header.Set("Content-Type", "application/json")
+	v = new(ProjectIssueTypeFieldsObject)
+	resp, err = u.client.Do(req, v)
+	if err != nil {
+		return nil, resp, err
+	}
+	return
+}
+
+type ProjectIssueTypeGetObject struct {
+	SharedWithProjects   []ProjectObject `json:"sharedWithProjects"`
+	SharedWithIssueTypes []string        `json:"sharedWithIssueTypes"`
+	TotalProjectsCount   int             `json:"totalProjectsCount"`
+	Name                 string          `json:"name"`
+	State                string          `json:"state"`
+	DisplayName          string          `json:"displayName"`
+	IsDraftWithChanges   bool            `json:"isDraftWithChanges"`
+	DraftWithChanges     bool            `json:"draftWithChanges"`
+	HiddenProjectsCount  int             `json:"hiddenProjectsCount"`
+}
+
+func (u *ProjectService) IssueTypeWorkflow(opts *ProjectIssueTypeGetOption) (v *ProjectIssueTypeGetObject, resp *http.Response, err error) {
+	path := fmt.Sprintf("%v/rest/projectconfig/1/issuetype/%v/%v/workflow", u.client.endpoint, opts.Project, opts.Issuetype)
+	req, err := http.NewRequest("GET", path, nil)
+	if err != nil {
+		return
+	}
+	u.client.requestExtHeader(req)
+	req.Header.Set("Content-Type", "application/json")
+	v = new(ProjectIssueTypeGetObject)
 	resp, err = u.client.Do(req, v)
 	if err != nil {
 		return nil, resp, err
