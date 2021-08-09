@@ -30,9 +30,9 @@ func (p *ProjectGetOption) Check() {
 type ProjectGetObject []ProjectObject
 
 type ProjectObject struct {
-	Expand string `json:"expand,omitempty"`
-	Self   string `json:"self,omitempty"`
-	// ID          string `json:"id,omitempty"`
+	Expand      string `json:"expand,omitempty"`
+	Self        string `json:"self,omitempty"`
+	ID          string `json:"id,omitempty"`
 	Key         string `json:"key"`
 	Name        string `json:"name"`
 	Description string `json:"description,omitempty"`
@@ -220,15 +220,42 @@ type ProjectIssueTypeFieldsObject struct {
 	ViewScreen ViewScreen `json:"viewScreen"`
 }
 
+type SharedProjectObject struct {
+	Expand      string `json:"expand,omitempty"`
+	Self        string `json:"self,omitempty"`
+	ID          int64  `json:"id,omitempty"`
+	Key         string `json:"key"`
+	Name        string `json:"name"`
+	Description string `json:"description,omitempty"`
+	AvatarUrls  struct {
+		Four8X48  string `json:"48x48"`
+		Two4X24   string `json:"24x24"`
+		One6X16   string `json:"16x16"`
+		Three2X32 string `json:"32x32"`
+	} `json:"avatarUrls,omitempty"`
+	ProjectCategory ProjectCategory   `json:"projectCategory,omitempty"`
+	ProjectTypeKey  string            `json:"projectTypeKey,omitempty"`
+	Projectkeys     []string          `json:"projectKeys,omitempty"`
+	Issuetypes      []IssueTypeObject `json:"issuetypes,omitempty"`
+	Lead            Lead              `json:"lead,omitempty"`
+	URL             string            `json:"url,omitempty"`
+	Components      []ComponentObject `json:"components,omitempty"`
+	IssueTypes      []IssueTypeObject `json:"issueTypes,omitempty"`
+	AssigneeType    string            `json:"assigneeType"`
+	Versions        []interface{}     `json:"versions,omitempty"`
+	Archived        bool              `json:"archived,omitempty"`
+	Roles           Roles             `json:"roles,omitempty"`
+}
+
 type ViewScreen struct {
-	SharedWithProjects   []ProjectObject `json:"sharedWithProjects"`
-	SharedWithIssueTypes []string        `json:"sharedWithIssueTypes"`
-	TotalProjectsCount   int             `json:"totalProjectsCount"`
-	ScreenID             int             `json:"screenId"`
-	ScreenName           string          `json:"screenName"`
-	CanEdit              bool            `json:"canEdit"`
-	State                string          `json:"state"`
-	HiddenProjectsCount  int             `json:"hiddenProjectsCount"`
+	SharedWithProjects   []SharedProjectObject `json:"sharedWithProjects"`
+	SharedWithIssueTypes []string              `json:"sharedWithIssueTypes"`
+	TotalProjectsCount   int                   `json:"totalProjectsCount"`
+	ScreenID             int                   `json:"screenId"`
+	ScreenName           string                `json:"screenName"`
+	CanEdit              bool                  `json:"canEdit"`
+	State                string                `json:"state"`
+	HiddenProjectsCount  int                   `json:"hiddenProjectsCount"`
 }
 
 func (u *ProjectService) IssueTypeFields(opts *ProjectIssueTypeGetOption) (v *ProjectIssueTypeFieldsObject, resp *http.Response, err error) {
@@ -248,15 +275,15 @@ func (u *ProjectService) IssueTypeFields(opts *ProjectIssueTypeGetOption) (v *Pr
 }
 
 type ProjectIssueTypeGetObject struct {
-	SharedWithProjects   []ProjectObject `json:"sharedWithProjects"`
-	SharedWithIssueTypes []string        `json:"sharedWithIssueTypes"`
-	TotalProjectsCount   int             `json:"totalProjectsCount"`
-	Name                 string          `json:"name"`
-	State                string          `json:"state"`
-	DisplayName          string          `json:"displayName"`
-	IsDraftWithChanges   bool            `json:"isDraftWithChanges"`
-	DraftWithChanges     bool            `json:"draftWithChanges"`
-	HiddenProjectsCount  int             `json:"hiddenProjectsCount"`
+	SharedWithProjects   []SharedProjectObject `json:"sharedWithProjects"`
+	SharedWithIssueTypes []string              `json:"sharedWithIssueTypes"`
+	TotalProjectsCount   int                   `json:"totalProjectsCount"`
+	Name                 string                `json:"name"`
+	State                string                `json:"state"`
+	DisplayName          string                `json:"displayName"`
+	IsDraftWithChanges   bool                  `json:"isDraftWithChanges"`
+	DraftWithChanges     bool                  `json:"draftWithChanges"`
+	HiddenProjectsCount  int                   `json:"hiddenProjectsCount"`
 }
 
 func (u *ProjectService) IssueTypeWorkflow(opts *ProjectIssueTypeGetOption) (v *ProjectIssueTypeGetObject, resp *http.Response, err error) {
